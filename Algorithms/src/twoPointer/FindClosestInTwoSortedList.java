@@ -2,15 +2,14 @@ package twoPointer;
 
 public class FindClosestInTwoSortedList {
 
-	public static void main(String[] args){
-		
+	public static void main(String[] args) {
 		FindClosestInTwoSortedList test = new FindClosestInTwoSortedList();
-		int[] arr1 = {1,2,6,9,67,99};
-		int[] arr2 = {20,40,101,9999};
-	    int result = test.findClosest(arr1, arr2);
-	    System.out.println(result);
+		int[] arr1 = { 1, 2, 6, 9, 67, 99 };
+		int[] arr2 = { 20, 40, 101, 9999 };
+		int result = test.findClosest(arr1, arr2);
+		System.out.println(result);
 	}
-	
+
 	private int findClosest(int[] arr1, int[] arr2) {
 		int index1 = 0;
 		int index2 = 0;
