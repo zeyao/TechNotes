@@ -46,8 +46,32 @@
 - Metaspace并不在虚拟机内存中而是使用本地内存， 最直接的表现就是java.lang.OutOfMemoryError: PermGen 问题将不复存在，因为默认的Metaspace分配只受本地内存大小的限制，也就是说本地内存剩余多少，理论上Metaspace就可以有多大，这解决了空间不足的问题。我们使用 -XX:MaxMetaspaceSize 参数来指定 Metaspace 区域的大小
 
 ## GC
+###哪些内存需要回收？
+程序计数器，栈随着线程的生命周期而灭，不存在GC的问题，GC主要在堆和方法区
+### GC的方法
+##### 引用计数法 （reference  counting）
+每有一个地方引用，计数加一，当引用失效的时减1，当计数为0的时候就进行GC
+##### 可达性分析算法 (Reachability analysis)
+寻找是不是可以到达GC ROOT
+#### 方法区的GC
+方法区的GC分为废弃的常量和废弃的Class；
 
+- 常量的GC：当没有任何引用，例如常量池中的 “ABC“ 没有任何引用了，就会被GC
 
+#####如何鉴定废弃的class
+- 这个class所有的instance都被回收了， heap 里没有这个类的任何instance
+- ClassLoader被回收
+- 这个Class本身没有任何地方被引用
+
+###Stop-the-world：
+Stop-the-world意味着从应用中停下来并进入到GC执行过程中去。一旦Stop-the-world发生，除了GC所需的线程外，其他线程都将停止工作，中断了的线程直到GC任务结束才继续它们的任务。GC调优通常就是为了改善stop-the-world的时间。
+                        
+
+###垃圾收集器 ：
+- Serial 回收器 ： 最早的单线程回收器, 在进行GC的时候，用户的线程将会被停掉（触发 stop the world）
+- GC的时候必须要等到Java线程都进入到safepoint的时候GC线程才能开始执行GC
+
+![avatar](https://pic.yupoo.com/crowhawk/6b90388c/6c281cf0.png)
 
 
 
