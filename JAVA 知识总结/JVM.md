@@ -73,6 +73,8 @@ Stop-the-world意味着从应用中停下来并进入到GC执行过程中去。�
 
 ![avatar](https://pic.yupoo.com/crowhawk/6b90388c/6c281cf0.png)
 
+- ParNew 回收器 ：在 Serial 基础上 GC线程进行多线程版本
+- G1 收集器： JDK7之后的最新的收集器
 
 
 
