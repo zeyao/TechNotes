@@ -32,7 +32,7 @@
   ![avatar](https://ask.qcloudimg.com/http-save/yehe-3170721/7wo9hg4rer.png)
   
 
-
+- ArrayList 和 linkedList 区别， Arraylist 是基于数组实现的，定位搜索某一位快 O(1) list.get(2);  LinkedList基于指针的node list是遍历来寻找的。 LinkedList在删除增加元素的时候快, 因为 Arraylist需要把位置重新计算,在某一位插入或者删除，之后的所有元素都要位移。
 
 
 
