@@ -3,8 +3,16 @@ package dp;
 public class LongestCommonSubstring {
 /**
  * 
- * @param A
- * @param B
+ * LintCode 79 https://www.lintcode.com/problem/longest-common-substring/description
+ * Given two strings, find the longest common substring.
+ * Return the length of it.
+ * Example
+ * Input:  "ABCD" and "CBCE"
+ * Output:  2
+ * Explanation:
+ * Longest common substring is "BC"
+
+
  * dp[i][j] 记录下 A index i, B index j 的longest common substring
  */
 	public int longestCommonSubstring(String A, String B) { 
@@ -13,6 +21,7 @@ public class LongestCommonSubstring {
         int[][] dp = new int[A.length()][B.length()];
         char[] arrA = A.toCharArray();
         char[] arrB = B.toCharArray();
+        
         for (int i = 0 ; i < arrA.length; i++) {
             if (arrA[i] == arrB[0]) {
                 dp[i][0] = 1;    
@@ -31,7 +40,7 @@ public class LongestCommonSubstring {
             }
             
         }
-        
+        //init i = 0 or j = 0 cases
         for (int i = 1 ; i < arrA.length; i++) {
             for (int j = 1 ; j < arrB.length; j++) {
                 if (arrA[i] == arrB[j]) {
