@@ -3,7 +3,10 @@ package twoPointer;
 import java.util.Arrays;
 
 public class MaximumProductOfKNumbers {
-	
+	/**
+	 *  给出一个数组，找出拿出K个数，product最大的 
+	 *
+	 */
 	public static void main(String[] args) {
 		int[] arr = {-1,6,8,-100};
 		System.out.println(maximumProduct(arr,3));
