@@ -1,4 +1,4 @@
-package sorting;
+package hashTable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
