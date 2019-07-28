@@ -42,7 +42,7 @@ boolean hasCycle = false;
                 hasCycle = true;
                 return;
             }
-            else {
+            else if(!hasCycle){
                 dfs(visited, adj, edges, edgeVistied);
             }
         }
