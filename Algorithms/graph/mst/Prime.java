@@ -59,12 +59,13 @@ public class Prime {
 	
 	private static void visit(List<Connection> connectionList, String node, PriorityQueue<Connection> pq, Set<String> markedNode) {
 		//标记顶点node并且将所有链接node未被标记的顶点都放入PQ
+		//这里可以用一个Map<String,List<Connection>> 一个字典查找来优化，找到所有包含node 的边
 		markedNode.add(node);
 		for (Connection connection : connectionList) {
-			if (node.equals(connection.node1) && !markedNode.contains(connection.node2)) {
+			if (node.equals(connection.node1)) {
 				pq.add(connection);
 			}
-			else if (node.equals(connection.node2) && !markedNode.contains(connection.node1)) {
+			else if (node.equals(connection.node2)) {
 				pq.add(connection);
 			}
 		}
@@ -85,6 +86,28 @@ public class Prime {
         List<Connection> graph = new ArrayList<>(Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8, c9));
         List<Connection> result = primMst(graph);
         for (Connection conn : result) {
+            System.out.println(conn.node1 + "-" + conn.node2);
+        }
+        System.out.println("分割线 ------------------- ");
+        Connection n1 = new Connection("1", "5", 32);
+        Connection n2 = new Connection("5", "4", 35);
+        Connection n3 = new Connection("5", "7", 28);
+        Connection n4 = new Connection("4", "7", 37);
+        Connection n5 = new Connection("1", "7", 19);
+        Connection n6 = new Connection("1", "3", 29);
+        Connection n7 = new Connection("3", "2", 17);
+        Connection n8 = new Connection("2", "7", 34);
+        Connection n9 = new Connection("1", "2", 36);
+        Connection n10 = new Connection("3", "6", 52);
+        Connection n11 = new Connection("2", "6", 40);
+        Connection n12 = new Connection("0", "7", 16);
+        Connection n13 = new Connection("0", "2", 26);
+        Connection n14 = new Connection("0", "4", 38);
+        Connection n15 = new Connection("0", "6", 58);
+        Connection n16 = new Connection("4", "6", 93);
+        List<Connection> graph2 = new ArrayList<>(Arrays.asList(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16));
+        List<Connection> result2 = primMst(graph2);
+        for (Connection conn : result2) {
             System.out.println(conn.node1 + "-" + conn.node2);
         }
     }
