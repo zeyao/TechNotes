@@ -24,7 +24,7 @@ public class Prime {
 	}
 	
 	public static List<Connection> primMst(List<Connection> connectionList) {
-        Comparator<Connection> compareFactor = new Comparator<Connection>() {
+		Comparator<Connection> compareFactor = new Comparator<Connection>() {
 			public int compare(Connection o1, Connection o2) {
                 return o1.length - o2.length;                 
 			}
