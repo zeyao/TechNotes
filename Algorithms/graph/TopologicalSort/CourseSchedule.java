@@ -40,17 +40,16 @@ public class CourseSchedule {
 		}
 		
 		while (!queue.isEmpty()) {
-			int current = queue.poll(); 
-			List<Integer> adjList = map.get(current);
-            if (adjList != null && !adjList.isEmpty()) {
-                for (Integer adj : adjList) {
-                    inDegree[adj] = inDegree[adj] - 1;
-                    //当queue 移除一个pre-request adj节点的入度 - 1 
-                    if (inDegree[adj] == 0) {
-                        queue.offer(adj);
-                    }
-                }
-            }
+			  int current = queue.poll(); 
+			  List<Integer> adjList = map.get(current);
+			  if (adjList != null && !adjList.isEmpty()) {
+				  for (Integer adj : adjList) {
+					  inDegree[adj] = inDegree[adj] - 1;
+					  if (inDegree[adj] == 0) {
+						  queue.offer(adj);
+					  }
+				  }
+			  }
 		}
 		for (int i = 0; i < numCourses; i++) {
 			if (inDegree[i] != 0) {
