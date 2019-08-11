@@ -3,10 +3,9 @@ package shortestPath;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Set;
+
 
 public class DijkstraGetPath {
 	/**
@@ -17,7 +16,6 @@ public class DijkstraGetPath {
 	
 	
 	private static List<String> dijkstra(List<Connection> graph, String start, String end) {
-		Set<String> visited = new HashSet<>();
 		Comparator<Node> compareFactor = new Comparator<Node>() {
 			public int compare(Node o1, Node o2) {
                 return o1.disToStart - o2.disToStart;                 
@@ -31,20 +29,16 @@ public class DijkstraGetPath {
 			if (currentNode.node.equals(end)) {
 				return currentNode.path;
 			}
-			if (visited.contains(currentNode.node)) {
-				continue;
-			}			
-			visited.add(currentNode.node);
 			
 			for (Connection c: graph) {				
-				if (c.node1.equals(currentNode.node) && !visited.contains(c.node2)) {
+				if (c.node1.equals(currentNode.node)) {
 					Node nextNode = new Node(c.node2, currentNode.disToStart + c.length);
 					List<String> path = nextNode.path;
 					path.addAll(currentNode.path);
 					path.add(c.node1 + " -> " + c.node2);
 					pq.add(nextNode);
 				}					
-				if (c.node2.equals(currentNode.node) && !visited.contains(c.node1)) {
+				if (c.node2.equals(currentNode.node)) {
 					Node nextNode = new Node(c.node1, currentNode.disToStart + c.length);
 					List<String> path = nextNode.path;
 					path.addAll(currentNode.path);

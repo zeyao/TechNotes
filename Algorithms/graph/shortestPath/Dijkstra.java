@@ -3,10 +3,9 @@ package shortestPath;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Set;
+
 
 public class Dijkstra {
 	/**
@@ -17,7 +16,6 @@ public class Dijkstra {
 	
 	
 	private static int dijkstra(List<Connection> graph, String start, String end) {
-		Set<String> visited = new HashSet<>();
 		Comparator<Node> compareFactor = new Comparator<Node>() {
 			public int compare(Node o1, Node o2) {
                 return o1.disToStart - o2.disToStart;                 
@@ -31,16 +29,12 @@ public class Dijkstra {
 			if (currentNode.node.equals(end)) {
 				return currentNode.disToStart;
 			}
-			if (visited.contains(currentNode.node)) {
-				continue;
-			}			
-			visited.add(currentNode.node);
 			
 			for (Connection c: graph) {				
-				if (c.node1.equals(currentNode.node) && !visited.contains(c.node2)) {					
+				if (c.node1.equals(currentNode.node)) {					
 					pq.add(new Node(c.node2, currentNode.disToStart + c.length));
 				}					
-				if (c.node2.equals(currentNode.node) && !visited.contains(c.node1)) {
+				if (c.node2.equals(currentNode.node)) {
 					pq.add(new Node(c.node1, currentNode.disToStart + c.length));
 				}
 				//注意这里是无向图，有向图是不同的,会有不同的策略来进行判断联通性
