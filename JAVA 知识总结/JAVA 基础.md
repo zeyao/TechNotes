@@ -22,6 +22,22 @@
   - volatile
 
 
+### JAVA 主内存和工作内存
+
+Java内存模型规定了所有的变量都存储在主内存（MainMemory）中；线程的工作内存中保存了被该线程使用到的变量的主内存副本拷贝；线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量
+
+不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量值的传递均需要通过主内存来完成，线程、主内存、工作内存三者的交互关系如图所示
+
+![avatar](https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/509261-20190119235012605-1926250043.jpg)
+
+### Volatile 关键字
+Volatile 保证了线程之间的可见性
+Volitaile变量保证了一个线程修改了共享的变量的值，其他线程能够立即得到这个修改
+任何新值会立即同步到主内存，每次使用前都会从主内存刷新
+普通变量无法保证到这一点ß
+
+
+
 ### JAVA Collections and Maps:
   ![avatar](https://upload-images.jianshu.io/upload_images/3110311-9f59b74d0239843f.jpg)
   
