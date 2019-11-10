@@ -80,3 +80,53 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
     }
     
  ``` 
+ 
+ 
+ 
+### Leetcode 1171. Remove Zero Sum Consecutive Nodes from Linked List
+
+``` 
+Given the head of a linked list, we repeatedly delete consecutive sequences of nodes that sum to 0 until there are no such sequences.
+
+After doing so, return the head of the final linked list.  You may return any such answer.
+
+ 
+
+(Note that in the examples below, all sequences are serializations of ListNode objects.)
+``` 
+
+
+ <img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LC1171.jpg" style="height:500px" />
+ 
+ > 如果一个node A prefix sum = n , node B prefix sum = n 那么 A 到 B 之间sum 就是 0， 所以可以把prefix sum 当作 key, node当作value放进map， 如果找到， A.next = B.next;
+ 
+ ```
+public ListNode removeZeroSumSublists(ListNode head) {
+        Map<Integer, ListNode> map = new HashMap<>();
+        ListNode tmp = head;
+        int sum = 0;
+        while (tmp != null) {
+            sum += tmp.val;
+            if (sum != 0) {
+                map.put(sum, tmp);
+            }    
+            tmp = tmp.next;
+        }
+        
+        tmp = head;
+        sum = 0;
+        while (tmp != null) {
+            sum += tmp.val;
+            if (sum == 0) {
+                head = tmp.next;
+            }            
+            if (map.containsKey(sum)) {
+                ListNode nextNode = map.get(sum);
+                tmp.next = nextNode.next;               
+            }
+            tmp = tmp.next;
+        }
+        return head;
+    }
+```  
+ 
