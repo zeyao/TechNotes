@@ -9,6 +9,7 @@
 
 #### LC1063. Number of Valid Subarrays
 
+
 > Given an array A of integers, return the number of non-empty continuous subarrays that satisfy the following condition:
 
 > The leftmost element of the subarray is not larger than other elements in the subarray.
@@ -43,3 +44,53 @@
         return count;
     }
 ```
+
+
+
+#### LC84. Largest Rectangle in Histogram
+
+> Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+
+
+<img src="https://assets.leetcode.com/uploads/2018/10/12/histogram_area.png" style="height:200px" />
+
+<img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LC%2084.jpg" style="height:500px" />
+
+
+```
+
+
+    public int largestRectangleArea(int[] heights) {
+        int max = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < heights.length; i++) {
+            int width = 0;
+            while (!stack.isEmpty() && stack.peek() > heights[i]) {
+                int number = stack.pop();
+                width++;
+                max = Math.max(max, number * width);
+            }
+            for (int j = 0; j < width; j++) {
+                stack.add(heights[i]);
+                // smaller number can caculate both left and right, 
+                // replace the pop element with smaller element
+                //[2,1,2] - > [1,1,2]
+            }
+            stack.add(heights[i]);
+        }
+        //now everything in stack in 递增
+        int width = 0;
+        while (!stack.isEmpty()) {
+            int number = stack.pop();
+            width++;
+            max = Math.max(max, number * width);
+        }
+        return max;
+    }
+    
+```
+
+
+
+
+
