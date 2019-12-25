@@ -91,6 +91,40 @@
 ```
 
 
+-  如何优化，不需要重新把出栈元素替换为较小的 arr[i]
+
+- 可以通过stack放入index 通过 当heights[stack.peek()] > heights[i] 出栈，栈对应的元素依旧是递增，那么每一个stack pop 元素右边界就是i，左边界就是stack.peek(), 如果 stack 空， 说明左边界是-1；
+
+这样可以保证即使出栈掉一轮 例如 [2, 1, 5, 6, 2, 3] stack 出栈掉 index 2 index3 , 里的 index stack: [1, 4, 5] 计算index 4 时候 面积 = (6 - 1 - 1) * 2 = 8
+
+<img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LC84(2).jpg" style="height:500px" />
 
 
+
+```
+    public int largestRectangleArea(int[] heights) {
+        int max = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < heights.length; i++) {
+            while (!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
+                int currentIndex = stack.pop();
+                int leftIndex = stack.isEmpty() ? -1 : stack.peek();
+                max = Math.max(max, (i - leftIndex - 1) * heights[currentIndex]);
+            }
+            stack.add(i);
+        }
+        
+        //now all递增
+        if (stack.isEmpty()) return max;
+        
+        int rightIndex = stack.peek() + 1;
+        while (!stack.isEmpty()) {
+            int currentIndex = stack.pop();
+            int leftIndex = stack.isEmpty() ? -1 : stack.peek();
+            max = Math.max(max, (rightIndex - leftIndex - 1) * heights[currentIndex]);
+        }        
+        return max;
+    }
+    
+```
 
