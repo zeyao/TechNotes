@@ -14,7 +14,7 @@
 ```
 
 
-    private static void quickSort(int left, int right, Integer[] arr) {
+    public static void quickSort(int left, int right, Integer[] arr) {
 		if (left >= right) return;
 		int index = divided(left, right, arr);
 		quickSort(left, index - 1, arr);
