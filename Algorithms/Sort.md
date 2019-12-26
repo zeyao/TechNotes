@@ -10,6 +10,7 @@
 
 <img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/quicksort.jpg" style="height:500px" />
 
+- 从右到左找到第一个小于key 的 index 停止，swap arr[right] and arr[right] 然后，因为找到了这个swap 之前的index arr[right], 知道了它小于key, 于是 swap结束后 left++;
 
 ```
 
