@@ -63,3 +63,60 @@ Explanation: T is "ece" which its length is 3.
     }
 ``` 
 
+#### LC992 Subarrays with K Different Integers
+
+- Given an array A of positive integers, call a (contiguous, not necessarily distinct) subarray of A good if the number of different integers in that subarray is exactly K.
+
+```
+Input: A = [1,2,1,2,3], K = 2
+Output: 7
+Explanation: Subarrays formed with exactly 2 different integers: 
+[1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2].
+
+```
+
+-  这道题要找 K Different Integers Subarray的个数，exactly K Different Integers Subarray的个数 = at most K Different Integers Subarray的个数 - at most K-1 Integers Subarray 个数， 这就类似于 LC340， 计算at most 问题的sliding window, 依旧是保证window 内 不超过 K Different Integers， 如果超过这个要求，left pointer 向右移动
+
+```
+class Solution {
+    public int subarraysWithKDistinct(int[] A, int K) {
+        return atMostk(A, K) - atMostk(A, K - 1);
+    }
+    
+    private int atMostk(int[] A, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+        int sum = 0;
+        int left = 0;
+        for (int right = 0 ; right < A.length; right++) {
+            if (!map.containsKey(A[right])) {
+                map.put(A[right], 1);
+            }
+            else {
+                int count = map.get(A[right]);
+                count++;
+                map.put(A[right], count);
+            }
+            while (map.size() > k) {
+                int count = map.get(A[left]);
+                count--;
+                if (count == 0) {
+                    map.remove(A[left]);
+                }
+                else {
+                    map.put(A[left], count);
+                }
+                left++;
+            }
+            sum += right - left + 1;
+            //计算移动过程中 left 到 right subarray 个数
+        }
+        return sum;
+    }
+}
+```
+-  如何计算left - right 移动过程中 sub array 个数的总和
+
+ <img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/sunarraycount.jpg" style="height:450px" />
+
+
+
