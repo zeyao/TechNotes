@@ -12,7 +12,7 @@
 - LC159 https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
 - LC 76 https://leetcode.com/problems/minimum-window-substring/
 
-- 这种提醒在于，找到并保持 window 里的元素满足条件要求，（不超过条件的要求），在移动的过程中对满足条件的每一种可能进行计算，如果right pointer移动过程中，发现超出题意要求，移动left pointer直到window 回归到满足要求过程
+- 这种类型的题关键点在于，**找到并保持 window 里的元素满足条件要求**，（不超出条件的要求），在移动的过程中对**满足条件的每一种可能进行计算**，如果right pointer移动过程中，发现超出题意要求，移动left pointer直到window 回归到满足要求过程
 
 #### LC340 Longest Substring with At Most K Distinct Characters
 - Given a string, find the length of the longest substring T that contains at most k distinct characters.
