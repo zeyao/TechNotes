@@ -2,9 +2,10 @@
 # Sliding Window 问题
 
 
-## Window 内至多至少元素的题型
+## substring Window 满足（至少）包含一定数量的条件问题
 
-- 有一种Sliding Window的题型是计算包含最多K个元素，求window长度或者，个数
+- 有一种Sliding Window的题型是计算包含最多K个元素，exactly K个元素，不少于target里的多少个元素，求window长度或者，总个数
+- 这种题本质是 条件需要是window的一个子集
 - 经典题目有：
 - LC340 https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
 - LC1248 https://leetcode.com/problems/count-number-of-nice-subarrays/
