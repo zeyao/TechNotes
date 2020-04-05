@@ -8,6 +8,7 @@
   -
   - 线程是属于进程的，线程运行在进程空间内，同一进程所产生的线程共享同一内存空间，是CPU调度和分派的基本单位
   - 多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用
+  - 线程的状态： New, Runnable, Waitting, Blocked, Terminated.
 
 ### 进程间的通信方式和对应的同步方式
 
@@ -55,4 +56,13 @@ Volitaile变量保证了一个线程修改了共享的变量的值，其他线�
 
 
 ``` 
+### ArrayBlockingQueue、LinkedBlockingQueue 区别
+- 都是线程安全
+- 都用了锁的机制
+- ArrayBlocking queue 使用了一个锁
+- LinkedBlockingQueue 基于linkedlist 的机制， 头尾使用不同的锁， 更加适合生产消费者模式， 其添加采用的是putLock，移除采用的则是takeLock，这样能大大提高队列的吞吐量，也意味着在高并发的情况下生产者和消费者可以并行地操作队列中的数据，以此来提高整个队列的并发性能。
+- ArrayBlockingQueue是对BlockingQueue的一个数组实现，它使用一把全局的锁并行对queue的读写操作
 
+- ConcurrentLinkedQueue 高并发下性能更好 基于CAS算法
+- ArrayBlocking queue基于数组实现，所以需要定义长度大小
+- 
