@@ -2,9 +2,12 @@ package mst;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 import java.util.Set;
@@ -24,52 +27,57 @@ public class Prime {
 	}
 	
 	public static List<Connection> primMst(List<Connection> connectionList) {
-		Comparator<Connection> compareFactor = new Comparator<Connection>() {
-			public int compare(Connection o1, Connection o2) {
-                return o1.length - o2.length;                 
-			}
-		};
-		Set<String> markedNode = new HashSet<>();
+		Set<String> visited = new HashSet<>();
 		List<Connection> mst = new ArrayList<>();
-		PriorityQueue<Connection> pq = new PriorityQueue<>(compareFactor);
+		PriorityQueue<Connection> pq = new PriorityQueue<>((o1, o2) -> o1.length - o2.length);
 		//对于边的优先队列
-		String firstPickedNode = connectionList.get(0).node1;
-		visit(connectionList, firstPickedNode, pq, markedNode);
+		Map<String, List<Connection>> graph = new HashMap<>();
+		for (Connection c : connectionList) {
+			String[] arr = {c.node1, c.node2};
+			for (String key : arr) {
+				if (!graph.containsKey(key)) {
+					List<Connection> list = new ArrayList<>();
+					list.add(c);
+					graph.put(key, list);
+				}
+				else {
+					graph.get(key).add(c);
+				}
+			}	
+		}
+		addFirstNode(connectionList.get(0).node1, pq, graph);
+		visited.add(connectionList.get(0).node1);
 		
 		while (!pq.isEmpty()) {
-			Connection minLenconnection = pq.poll();
-			String node1 = minLenconnection.node1;
-			String node2 = minLenconnection.node2;
-			if (markedNode.contains(node1) && markedNode.contains(node2)) {
-				continue;
-				//失效的边
+			Connection c = pq.poll();
+			String node1 = c.node1;
+			String node2 = c.node2;
+			//如果两个定点都已经visited了，那么这条边失效，因为他两个点已经联通了
+			//所以我们只需要去handle未visited的定点
+			if (!visited.contains(node1)) {
+				mst.add(c);
+				visited.add(node1);
+				for (Connection next : graph.get(node1)) {
+					pq.offer(next);
+				}
 			}
-			mst.add(minLenconnection);
-			if (!markedNode.contains(node1)) {
-				visit(connectionList, node1, pq, markedNode);
+			else if (!visited.contains(node2)) {
+				visited.add(node2);
+				mst.add(c);
+				for (Connection next : graph.get(node2)) {
+					pq.offer(next);
+				}
 			}
-			if (!markedNode.contains(node2)) {
-				visit(connectionList, node2, pq, markedNode);
-			}
-		}
-		
+		}	
 		return mst;
 		
 	}
 	
-	private static void visit(List<Connection> connectionList, String node, PriorityQueue<Connection> pq, Set<String> markedNode) {
-		//标记顶点node并且将所有链接node未被标记的顶点都放入PQ
-		//这里可以用一个Map<String,List<Connection>> 一个字典查找来优化，找到所有包含node 的边
-		markedNode.add(node);
-		for (Connection connection : connectionList) {
-			if (node.equals(connection.node1)) {
-				pq.add(connection);
-			}
-			else if (node.equals(connection.node2)) {
-				pq.add(connection);
-			}
-		}
-		
+	private static void addFirstNode(String node, PriorityQueue<Connection> pq, Map<String, List<Connection>> graph) {
+		//find the smallest length of the first node
+		List<Connection> c = graph.get(node);
+		Collections.sort(c, (o1, o2) -> o1.length - o2.length);
+		pq.offer(c.get(0));
 		
 	}
 	
