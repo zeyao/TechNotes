@@ -2,9 +2,12 @@ package shortestPath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 
 public class Dijkstra {
@@ -16,33 +19,55 @@ public class Dijkstra {
 	
 	
 	private static int dijkstra(List<Connection> graph, String start, String end) {
-		Comparator<Node> compareFactor = new Comparator<Node>() {
-			public int compare(Node o1, Node o2) {
-                return o1.disToStart - o2.disToStart;                 
-			}
-		};
-		
-		PriorityQueue<Node> pq = new PriorityQueue<Node>(compareFactor);
+		Map<String, List<Node>> graphMap = buildGraph(graph);
+		PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.disToStart - o2.disToStart);
 		pq.add(new Node(start, 0));
+		Set<String> visited = new HashSet<>();
 		while (pq.size() > 0) {
 			Node currentNode = pq.poll();		
-			if (currentNode.node.equals(end)) {
+			if (visited.contains(currentNode.val)) {
+				continue;
+			}
+			visited.add(currentNode.val);
+			if (currentNode.val.equals(end)) {
 				return currentNode.disToStart;
 			}
 			
-			for (Connection c: graph) {				
-				if (c.node1.equals(currentNode.node)) {					
-					pq.add(new Node(c.node2, currentNode.disToStart + c.length));
-				}					
-				if (c.node2.equals(currentNode.node)) {
-					pq.add(new Node(c.node1, currentNode.disToStart + c.length));
-				}
-				//注意这里是无向图，有向图是不同的,会有不同的策略来进行判断联通性
+			List<Node> adjList = graphMap.get(currentNode.val);
+			if (adjList == null) continue;
+			for (Node next: adjList) {				
+				pq.offer(new Node(next.val, next.disToStart + currentNode.disToStart));
 			}
 		}
-		return - 1;
+		return -1;
 	}
 
+	static Map<String, List<Node>> buildGraph(List<Connection> graph) {
+		Map<String, List<Node>> graphMap = new HashMap<>();
+		for (Connection c : graph) {
+			String node1 = c.node1;
+			String node2 = c.node2;
+			if (!graphMap.containsKey(node2)) {
+				List<Node> list = new ArrayList<>();
+				list.add(new Node(node1, c.length));
+				graphMap.put(node2, list);
+			}
+			else {
+				graphMap.get(node2).add(new Node(node1, c.length));
+			}
+			if (!graphMap.containsKey(node1)) {
+				List<Node> list = new ArrayList<>();
+				list.add(new Node(node2, c.length));
+				graphMap.put(node1, list);
+			}
+			else {
+				graphMap.get(node1).add(new Node(node2, c.length));
+			}			
+		
+		}
+		return graphMap;
+	}
+	
 	public static void main(String[] args) {
 		Connection n1 = new Connection("1", "5", 32);
 		Connection n2 = new Connection("5", "4", 35);
@@ -77,15 +102,15 @@ public class Dijkstra {
 		}
 	}
 
-	static class Node {
-		public String node;
-		public int disToStart;
+	public static class Node {
+		String val;
+		int disToStart;
 
 		public Node() {
 		}
 
-		public Node(String node, int disToStart) {
-			this.node = node;
+		public Node(String val, int disToStart) {
+			this.val = val;
 			this.disToStart = disToStart;
 		}
 	}
