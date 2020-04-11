@@ -13,10 +13,12 @@ import java.util.Stack;
  *
  */
 public class BreakNumber {
+	
 	//输入：[3,13,60,7] -> 10
 	//从后往前，进入单调递减栈，为什么从后往前呢，因为大的数可以break, 所以要从后到前保持单调递减
 	//然后这个数字如果比stack.peek()大，就要对折，折到最接近stack.peek()就是最少次数
 	//因为要保持单调性，折的最小的要尽可能大，所以要折的尽可能平均
+	
 	public static int breakNum(int[] arr) {
 		int count = 0;
 		Stack<Integer> stack = new Stack<>();
