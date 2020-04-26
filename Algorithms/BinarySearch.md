@@ -137,7 +137,8 @@ public class Solution extends VersionControl {
 ```
 
 
-### 34. Find First and Last Position of Element in Sorted Array
+
+### LC34. Find First and Last Position of Element in Sorted Array
 
 > https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
@@ -191,8 +192,53 @@ public class Solution extends VersionControl {
         return arr;
     }
   
-  ```
+
+
+```
     
+    
+### LC 658 Find K Closest Elements
+
+> Given a sorted array, two integers k and x, find the k closest elements to x in the array. 
+> The result should also be sorted in ascending order. If there is a tie, the smaller elements are always preferred.
+
+
+> Input: [1,2,3,4,5], k=4, x=3
+
+> Output: [1,2,3,4]
+
+- 由于数组是递增的，我们要找到一个长度为K的range，closest to k 这个左边界可能在0 ～ arr.length - k 之间
+- case 1， X在range的中间，我们要找到这个range的左边界就可以， 也就是要找到左边界的第一个数，x 要位于左边界的中间至少靠左，所以要满足x - arr[mid] <= arr[mid+k] - x 
+- 所以如果x - arr[mid] >  arr[mid+k] - x 那么mid一定不是左边界 左边界一定在mid右边，mid = left + 1; 由于要找到满足提议的最右左边界，else：  mid = right；
+
+<img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LC658.jpg" style="height:500px" />
+
+- case 2： X在range的右边， x - arr[mid] >  arr[mid+k] - x 永远成立，于是一直收缩左边
+- case 3   收缩right
+- 所以无论如何 收缩边界利用 x - arr[mid] 比较  arr[mid+k] - x 都成立
+
+``` 
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {        
+        int left = 0;
+        int right = arr.length - k;
+        while (left < right) {
+            int mid = (right - left) / 2 + left;
+            if (x - arr[mid] > arr[mid+k] - x) {
+                left = mid + 1;
+            }
+            else {
+                right = mid;
+            }
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            list.add(arr[i]);
+        }
+        return list;
+    }
+
+``` 
+
     
 ### Find Peak Element
 
@@ -272,6 +318,7 @@ You may assume no duplicate exists in the array.
     }
 
 ```
+
 
 
 ### 1. Leftmost Column with at Least a One
