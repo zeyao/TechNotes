@@ -27,49 +27,17 @@ Substring 以及 Subsequence 这一类问题很多情况下要用到动态规划
 
 ```
 	public int longestCommonSubstring(String A, String B) { 
-        if (A.length() == 0 || B.length() == 0) return 0;
-        
-        int[][] dp = new int[A.length()][B.length()];
-        char[] arrA = A.toCharArray();
-        char[] arrB = B.toCharArray();
-        
-        for (int i = 0 ; i < arrA.length; i++) {
-            if (arrA[i] == arrB[0]) {
-                dp[i][0] = 1;    
-            }
-            else {
-                dp[i][0] = 0;
-            }
-        }
-        
-        for (int j = 0 ; j < arrB.length; j++) {
-            if (arrB[j] == arrA[0]) {
-                dp[0][j] = 1;
-            }
-            else{
-                dp[0][j] = 0;
-            }
-            
-        }
-
-        for (int i = 1 ; i < arrA.length; i++) {
-            for (int j = 1 ; j < arrB.length; j++) {
-                if (arrA[i] == arrB[j]) {
-                    dp[i][j] = dp[i-1][j-1] + 1;
-                }
-                else {
-                    dp[i][j] = 0;
+		int max = 0;
+   		int[][] dp = new int[A.length()+1][B.length()+1];
+      	for (int i = 0 ; i < A.length; i++) {
+            for (int j = 0 ; j < B.length; j++) {
+                if (A.charAt(i) == B.charAt(j)) {
+                    dp[i+1][j+1] = dp[i][j] + 1;
+                    max = Math.max(dp[i+1][j+1], max);
                 }
             }
-        }
-        
-        int max = 0;
-        for (int i = 0 ; i < dp.length; i++) {
-            for (int j = 0; j < dp[0].length; j++) {
-                max = Math.max(dp[i][j],max);
-            }
-        }
-        return max;
+      	}
+     	return max;
     }
 
 ```
@@ -77,7 +45,7 @@ Substring 以及 Subsequence 这一类问题很多情况下要用到动态规划
 
 ### 2. Longest common Subsequence：
 
-> LintCode 77 https://www.lintcode.com/problem/longest-common-substring/description
+> http://leetcode.com/problems/longest-common-subsequence/
 
 ```
 
@@ -88,55 +56,32 @@ Substring 以及 Subsequence 这一类问题很多情况下要用到动态规划
 	LCS is "AC"
 	
 ```
-- 这道题其实分析一下要找到最长的common Subsequence, 和第一题 最长common substring 很类似
-- 不同点在于要搞清楚Subsequence 的概念， 如果 A.charAt(i) == B.charAt(j) 那么 dp[i][j] = dp[i-1][j-1] + 1 
-- 如果不相等，因为Subsequence可以跳过不相等的index,所以需要沿用之前的结果，不归零， 而是需要沿用之前 最长的 Subsequence， 那么之前最长的在哪里呢, 因为dp是累加状态，所以，一定在 dp[i-1][j], dp[i][j-1] 的其中一个，取最大即可
-- 由于是累加状态，不需要再遍历一遍找到MAX， dp[i][j]就是累加下最大的 common Subsequence
+
+- 如果 A.charAt(i) == B.charAt(j) 相当于 那么 i，j 都在LCS之中，都要选，那么dp[i][j] = dp[i-1][j-1] + 1 
+- 如果i，j 不相等，那么我们不可以同时选i j 构建LCS， 要选i j其中一个 或者都不选，选取其中最大的结果
+- 如果选i 不选 j ，说明i可能和j之前的序列构成LCS，相当于要沿用 dp[i][j-1] 的结果
+- 如果选j不选 i 沿用 dp[i-1][j]的结果
+- 都不要 dp[i-1][j-1]， 但这个结果肯定是最小就不用写在代码里面了
+
+
+<img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LCS.jpg" style="height:500px" />
 
 ```
-	public int longestCommonSubsequence(String A, String B) {
-        if (A.length() == 0 || B.length() == 0) return 0;
-        int[][] dp = new int[A.length()][B.length()];
-        char[] arrA = A.toCharArray();
-        char[] arrB = B.toCharArray();
-        
-        if (arrA[0] == arrB[0]) {
-            dp[0][0] = 1;
-        }
-        else {
-            dp[0][0] = 0;
-        }
-        
-        for (int i = 1 ; i < arrA.length; i++) {
-            if (arrA[i] == arrB[0]) {
-                dp[i][0] = 1;    
-            }
-            else {
-                dp[i][0] = dp[i-1][0];
-            }
-        }
-        
-        for (int j = 1 ; j < arrB.length; j++) {
-            if (arrB[j] == arrA[0]) {
-                dp[0][j] = 1;
-            }
-            else{
-                dp[0][j] = dp[0][j-1];
-            }
-            
-        }
-        
-        for (int i = 1 ; i < arrA.length; i++) {
-            for (int j = 1 ; j < arrB.length; j++) {
-                if (arrA[i] == arrB[j]) {
-                    dp[i][j] = dp[i-1][j-1] + 1;
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        int[][] dp = new int[m+1][n+1];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (text1.charAt(i) == text2.charAt(j)) {
+                    dp[i+1][j+1] = dp[i][j] + 1;
                 }
                 else {
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);                
+                    dp[i+1][j+1] = Math.max(dp[i][j+1], dp[i+1][j]);   
                 }
             }
         }
-        return dp[dp.length-1][dp[0].length-1];
+        return dp[m][n];
     }
 
 ```
