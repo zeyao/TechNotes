@@ -47,12 +47,63 @@ public int search(int[] nums, int target) {
 
 
 ``` 
-## 模板1
+
+### 702. Search in a Sorted Array of Unknown Size
+
+Given an integer array sorted in ascending order, write a function to search target in nums.  
+If target exists, then return its index, otherwise return -1. 
+
+However, the array size is unknown to you. 
+You may only access the array using an ArrayReader interface, where ArrayReader.get(k) returns the element of the array at index k
+
+- 二分查找，不知道upper边界，那么可以用双倍扩容法找到又边界再进行二分查找
+ 
+```
+/* interface ArrayReader {
+ *     public int get(int index) {}
+ * }
+ */
+ 
+
+class Solution {
+    public int search(ArrayReader reader, int target) {
+        //first define the binary search range, then do the bianry search
+        int left = 0;
+        int right = 1;
+        while (reader.get(right) < target) {
+            right *= 2;
+        }
+        while (left <= right) {
+            int mid = (right - left) / 2 + left;
+            int num = reader.get(mid);
+            if (num == target) {
+                return mid;
+            }
+            if (num < target) {
+                left = mid + 1;
+            }
+            else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+## 模板2
 - 寻找一个condition，并不是某一个直接的数字，比如找到min number larger than target， 或者是找到第一个出现的正数
 - 左右条件不对等, 比如找比目标数字大的最小的数，如果mid比 target小，那么一定在mid + 1 ~ end, 但是如果mid比target大，可能在【0，mid】
 - loop condition : left < right
 - search left : right = mid;
 - search right: left = mid + 1;
+
+- **注意由于找到的左边界，由于当出现两个（双数）mid的时候，int mid = (right - left) / 2 + left 帮我们选择了左边的一个，但是如果是要找右边界，就需要int mid = (right - left) / 2 + left + 1， 让这mid，成为右边那一个**
+
+- 同理：
+- loop condition : left < right
+- search left : right = mid + 1;
+- search right: left = mid;
 
 ### First Bad Version
 
@@ -85,6 +136,64 @@ public class Solution extends VersionControl {
 
 ```
 
+
+### 34. Find First and Last Position of Element in Sorted Array
+
+> https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+> Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+
+> Your algorithm's runtime complexity must be in the order of O(log n).
+
+> If the target is not found in the array, return [-1, -1].
+
+> Input: nums = [5,7,7,8,8,10], target = 8
+
+> Output: [3,4]
+
+
+- 分别找到左边界和右边界
+- 注意左边界 int mid = (right - left) / 2 + left;
+- 右边界 int mid = (right - left) / 2 + left + 1; 让双数的 mid 偏向后面
+
+```
+    public int[] searchRange(int[] nums, int target) {
+        // 找到左边界然后找到右边界
+        int[] arr = new int[2];
+        int left = 0;
+        int right = nums.length-1;
+        
+        //find left bound
+        while (left < right) {
+            int mid = (right - left) / 2 + left;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            }
+            else {
+                right = mid;
+            }
+        }
+        arr[0] = left < nums.length && nums[left] == target ? left : -1;
+        
+        // find right
+        left = 0;
+        right = nums.length - 1;
+        while (left < right) {
+            int mid = (right - left) / 2 + left + 1; // 让双数的 mid 偏向后面
+            if (nums[mid] > target) {
+                right = mid - 1;
+            }
+            else {
+                left = mid;
+            }
+        }
+        arr[1] = right >= 0 && nums[right] == target ? right : -1;
+        return arr;
+    }
+  
+  ```
+    
+    
 ### Find Peak Element
 
 A peak element is an element that is greater than its neighbors.
