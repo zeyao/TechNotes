@@ -12,6 +12,7 @@
 - LC992 https://leetcode.com/problems/subarrays-with-k-different-integers/
 - LC159 https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
 - LC 76 https://leetcode.com/problems/minimum-window-substring/
+- LC1358  https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/
 
 - 这种类型的题关键点在于，**找到并保持 window 里的元素满足条件要求**，在移动的过程中对**满足条件的每一种可能进行计算**，如果right pointer移动过程中 （即增大window），发现己经满足了题意条件要求，就开始移动left pointer （缩短window) ，查看是否存在更优（或者更多）可能的解，直到window不满足条件要求，就停止移动left pointer，这样通过right pointer的对window的扩张，和left pointer 对window的夹逼，可以找到最优（所有）满足条件的window
 
@@ -217,8 +218,33 @@ class Solution {
 
 
 
+#### LC 1358. Number of Substrings Containing All Three Characters
 
+- At least contains 问题，那么要满足window里保证有 All Three Characters, 当没有right++, 有了left++;
+- 找到All Three Characters之前，right++;
+- 找到了那么left-- 直到 left ~ right 之间的substring不包含 All Three Characters；
+- 这过程中时候以left ~ right为substring的string，都满足题意，所以个数是s.length() - right;
 
+<img src="https://raw.githubusercontent.com/zeyao/TechNotes/master/Document/LC1358.jpg" style="height:450px" />
 
+```
+    public int numberOfSubstrings(String s) {
+        int left = 0;
+        int[] count = new int[26];
+        int res = 0;
+        for (int right = 0; right < s.length(); right++) {
+            char r = s.charAt(right);
+            count[r - 'a']++;
+            while (count[0] > 0 && count[1] > 0 && count[2] > 0) {
+                res += s.length() - right;
+                char l = s.charAt(left);
+                count[l - 'a']--;
+                left++;
+            }
+        }
+        return res;
+    }
+
+```
 
 
