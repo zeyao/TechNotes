@@ -12,10 +12,10 @@
     
 - String to byte array
  	
- ```
-  arr := []byte(str)
+   ```
+    arr := []byte(str)
     
- ```
+   ```
  
  
     
@@ -63,7 +63,7 @@
    
  - sort slice：   
 
- ```
+   ```
  	words := make([]string, 0)
  	words = append(words, "a") // append alot ....
  	
@@ -74,42 +74,42 @@
 		return len(words[i]) < len(words[j])
 	})
  
- ```
+   ```
  
  - string and slice： 
 
- ```
-  words := strings.Split(str, " ")
-  //string to slice
+   ```
+    words := strings.Split(str, " ")
+    //string to slice
  
-  ans := strings.Join(words, " ")
-  //slice to string
+    ans := strings.Join(words, " ")
+    //slice to string
   
- ```
+   ```
  
  
 ### stirng 
 
 - string to int, 第一个返回可以转换成的数字，err == nil 说明可以转换
  
- ```
- num, err := strconv.Atoi(input)
+   ```
+   num, err := strconv.Atoi(input)
  
- if err == nil {
+   if err == nil {
  		// do something
- }
+   }
  
  
- b, err := strconv.ParseBool("true")
- f, err := strconv.ParseFloat("3.1415", 64)
- i, err := strconv.ParseInt("-42", 10, 64)
- u, err := strconv.ParseUint("42", 10, 64)
+   b, err := strconv.ParseBool("true")
+   f, err := strconv.ParseFloat("3.1415", 64)
+   i, err := strconv.ParseInt("-42", 10, 64)
+   u, err := strconv.ParseUint("42", 10, 64)
  
- ```
+   ```
  
 - int to string 
- 
- ```
+  
+   ```
 
 	s := strconv.Itoa(-42)
 	
@@ -118,65 +118,67 @@
    s := strconv.FormatInt(-42, 16)
    s := strconv.FormatUint(42, 16)
 
- ```
+   ```
  
 
  
 - substring 方法
-
-  ```
-	l := str[0:i] // [0, i) substirng
-	r := str[i+1:] // [i+1, len(str))
+ 
+   ```
+	 l := str[0:i] // [0, i) substirng
+	 r := str[i+1:] // [i+1, len(str))
   
-  ```
+   ```
   
 - String to byte array
  	
- ```
-  arr := []byte(str)
+  ```
+   arr := []byte(str)
     
- ```
+  ```
  
 - string is immutable
 
- ```
-	str := "adasdasd"
-	c := str[1] // 相当于 java charAt, 但是不可以直接在string修改 不可以 str[1] = 's'
+  ```
+	 str := "adasdasd"
+	 c := str[1] // 相当于 java charAt, 但是不可以直接在string修改 不可以 str[1] = 's'
 	
- ```
+  ```
 
 - stringbuilder
 
-  ```
-  var sb strings.Builder
+    ```
+    var sb strings.Builder
   
   
-  for i := range arr {
+    for i := range arr {
 		sb.WriteString(strconv.Itoa(arr[i]))
-  }
+    }
   
-  str := sb.String()
+    str := sb.String()
 	
 	
 	```
 
 - to lower upper case
   
-  ```
+   ```
 	strings.ToLower(text)
 	
    ```
 ### struct 
  
- ```
+   ```
  
- type entry struct {
-	key int;
-	count int;
- }
- 
- entrySet := []entry{}
- entrySet = append(entrySet, entry{key: 1, count: 1})
+	 type entry struct {
+		key int;
+		count int;
+	 }
+	 
+	 entrySet := []entry{}
+	 entrySet = append(entrySet, entry{key: 1, count: 1})
+	 
+	   
  
 
-```
+  ```
