@@ -135,6 +135,8 @@ public class Solution extends VersionControl {
 
 
 ```
+### 744. Find Smallest Letter Greater Than Target
+> https://leetcode.com/problems/find-smallest-letter-greater-than-target/
 
 
 
@@ -195,8 +197,64 @@ public class Solution extends VersionControl {
 
 
 ```
+
+
+
+### Doing Homework
+
+- https://www.lintcode.com/problem/doing-homework/description
+
+> n个人，他们每个人需要独立做m份作业。
+> 第i份作业需要花费cost[i]的时间。由于每个人的空闲时间不同，第i个人有val[i]的时间，
+> 这代表他做作业的总时间不会超过val[i]。每个人都按照顺序，从1号作业开始，然后做2号，3号...... 
+> 现在，你需要计算出他们最多花了多少的时间。
+
+```
+样例
+
+给定`cost=[1,2,3,5]`，`val=[6,10,4]`，返回`15`。
+输入:
+[1,2,3,5]
+[6,10,4]
+输出
+15
     
+```
+
+- 用prefix sum array记录下cumulative sum
+- 二分查找第一个小于等于v 的 sum
+- 注意handle not found case;
     
+```
+    public long doingHomework(int[] cost, int[] val) {
+        long[] prefixSum = new long[cost.length];
+        long sum = 0;
+        for (int i = 0; i < cost.length; i++) {
+            sum += (long) cost[i];
+            prefixSum[i] = sum;
+        }
+        long res = 0;
+        for (int v : val) {
+            //找prefix array <= v 的最大数
+            int left = 0;
+            int right = cost.length - 1;
+            while (left < right) {
+                int mid = (right - left) / 2 + left + 1;
+                if (prefixSum[mid] <= v) {
+                    left = mid;
+                }
+                else {
+                    right = mid - 1;
+                }
+            }
+            if (prefixSum[right] <= v) { //handle not found 
+                res += prefixSum[left];
+            }
+        }
+        return res;
+    }
+      
+```
 ### LC 658 Find K Closest Elements
 
 > Given a sorted array, two integers k and x, find the k closest elements to x in the array. 
