@@ -94,15 +94,17 @@ class Solution {
 ## 模板2
 - 寻找一个condition，并不是某一个直接的数字，比如找到min number larger than target， 或者是找到第一个出现的正数
 - 左右条件不对等, 比如找比目标数字大的最小的数，如果mid比 target小，那么一定在mid + 1 ~ end, 但是如果mid比target大，可能在【0，mid】
+- 寻找左边界
 - loop condition : left < right
 - search left : right = mid;
 - search right: left = mid + 1;
 
+
 - **注意由于找到的左边界，由于当出现两个（双数）mid的时候，int mid = (right - left) / 2 + left 帮我们选择了左边的一个，但是如果是要找右边界，就需要int mid = (right - left) / 2 + left + 1， 让这mid，成为右边那一个**
 
-- 同理：
+- 同理：寻找右边界ß
 - loop condition : left < right
-- search left : right = mid + 1;
+- search left : right = mid - 1;
 - search right: left = mid;
 
 ### First Bad Version
