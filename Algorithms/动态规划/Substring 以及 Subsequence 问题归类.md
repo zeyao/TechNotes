@@ -85,3 +85,42 @@ Substring 以及 Subsequence 这一类问题很多情况下要用到动态规划
     }
 
 ```
+
+
+### 3.  Longest Palindromic Substring 
+
+> https://leetcode.com/problems/longest-palindromic-substring/
+
+```
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+
+```
+
+
+- 如果char at i = j -> dp[i+1][j-1]是回文 那么dp[i][j]也是
+- 例如 baab aa是回文 那么 baab也是回文
+- 如果 i - j < 2 那么只需要判断 char at i = j
+
+```
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        if (s == null || s.length() == 0) return s;
+        boolean[][] dp = new boolean[n][n];
+        String res = "";
+        //[j, i]
+        for (int i = 0 ; i < n; i++) {
+            for (int j = i; j >= 0; j--) {
+                if (s.charAt(i) == s.charAt(j) && (i - j < 2 || dp[j+1][i-1])) {
+                    dp[j][i] = true;
+                    if (i - j + 1 > res.length()) {
+                        res = s.substring(j, i+1);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+```
