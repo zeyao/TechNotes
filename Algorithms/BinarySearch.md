@@ -451,3 +451,26 @@ class Solution {
     }
 }
 ``` 
+
+
+### First Missing element in sorted arr
+
+- 要找第一个mising element
+- 先比较 arr[left] - left != arr[mid] - mid 如果满足说明 （left, mid）之间一定存在一个missing， 可以排除 mid + 1 to end
+- 否则 不在 [left, mid] 由于我们知道肯定存在至少一个missing 那么肯定在(mid, right) 
+``` 
+	private static int findFistMissingElement(int[] arr) {
+		int left = 0;
+		int right = arr.length - 1;
+		while (left + 1 < right) {
+			int mid = (right - left) / 2 + left;
+			if (arr[left] - left != arr[mid] - mid) {
+				right = mid;
+			}
+			else {
+				left = mid;
+			}
+		}
+		return arr[left] + 1;
+	}
+``` 
