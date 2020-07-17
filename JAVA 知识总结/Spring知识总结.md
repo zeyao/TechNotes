@@ -18,3 +18,39 @@
 - 例子： 比如写Log， 可以做一个@Aspect， 写进入Method和输出Method的时间， 这样可以一个annotaion解决问题
 
 - **实际项目中的例子， MSC 的publish to DHR， 可以用切面代替，这样就不需要每一次调用scan DB publish的方法，在每一个method上加上@Aspect annotation 就可以了**               
+
+
+### 通知（Advice）
+
+- 在AOP术语中，切面的工作被成为通知。通知定义了切面是什么以及何时使用。
+
+- @Pointcut 定义介入切面
+- BeforeAdvice
+- AfterAdvice
+
+- @Aspect 定义切面
+
+
+```
+
+@Aspect
+public class AspectJAnnotationAdvisingObj {
+	private static final Logger logger = LoggerFactory.getLogger(AspectJAnnotationAdvisingObj.class);
+	
+    @Pointcut("execution(* com.springtest.AspectJAnnotationAdvisedObj.perform(..))")
+	public void performance() {
+		
+	}
+	
+    @Before("performance()")
+	public void beforeExecute(){
+		logger.info("AspectJAnnotationAdvisingObj beforeExcecute().");
+	}
+	
+    @AfterReturning("performance()")
+	public void afterExecute(){
+		logger.info("AspectJAnnotationAdvisingObj afterExecute().");
+	}
+
+
+```
