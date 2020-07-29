@@ -7,32 +7,27 @@ public class Caculator {
     //Pt.1 Calculator without parenthesis, only +, -, non-negative ints
     public static int basicCalculator1(String str) {
         int sum = 0;
-        boolean plus = true;
-        int index = 0;
-        while (index < str.length()) {
-            StringBuilder sb = new StringBuilder();
-            while (index < str.length() && Character.isDigit(str.charAt(index))) {
-                sb.append(str.charAt(index));
-                index++;
+        int plus = 1;
+        int i = 0;
+        while (i < str.length()) {
+            String numStr = "";
+            while (i < str.length() && Character.isDigit(str.charAt(i))) {
+                numStr += str.charAt(i);
+                i++;
             }
-            int num = Integer.parseInt(sb.toString());
-            if (plus) {
-                sum += num;
-            }
-            else {
-                sum -= num;
-            }
-            if (index >= str.length()) {
+            int num = Integer.parseInt(numStr);
+            sum += plus * num;
+            if (i >= str.length()) {
                 break;
             }
  
-            if (str.charAt(index) == '+') {
-                plus = true;
+            if (str.charAt(i) == '+') {
+                plus = 1;
             }
-            else if (str.charAt(index) == '-') {
-                plus = false;
+            else if (str.charAt(i) == '-') {
+                plus = -1;
             }
-            index++;           
+            i++;           
         }
         return sum;
     }
@@ -115,7 +110,7 @@ public class Caculator {
         }
         return res;
     }
-    
+
     public static void main(String[] args) {    
         System.out.println(basicCalculator1("1+43+78") == 1+43+78);
         System.out.println(basicCalculator1("1+430-30+1") == 1+430-30+1);
