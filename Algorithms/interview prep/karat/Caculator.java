@@ -77,6 +77,45 @@ public class Caculator {
         }
         return res;
     }
+
+    //p3 - handle + - * / 
+    public static int calculate3(String s) {
+        Stack<Integer> stack = new Stack<>();
+        char operator = '+';
+        int i = 0;
+        while (i < s.length()) {
+            String numStr = "";
+            while (i < s.length() && (Character.isDigit(s.charAt(i)) || s.charAt(i) == ' ')) {
+                numStr += s.charAt(i);
+                i++;
+            }
+            int num = Integer.parseInt(numStr.trim());
+            if (operator == '+') {
+                stack.add(num);
+            }
+            else if (operator == '-') {
+                stack.add(-1 * num);
+            }
+            else if (operator == '*') {
+                stack.add(stack.pop() * num);
+            }
+            else if (operator == '/') {
+                stack.add(stack.pop() / num);
+            }
+            
+            if (i >= s.length()) {
+                break;
+            }
+            operator = s.charAt(i);
+            i++;
+        }
+        int res = 0;
+        for (int n : stack) {
+            res += n;
+        }
+        return res;
+    }
+    
     public static void main(String[] args) {    
         System.out.println(basicCalculator1("1+43+78") == 1+43+78);
         System.out.println(basicCalculator1("1+430-30+1") == 1+430-30+1);
