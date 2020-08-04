@@ -5,10 +5,10 @@ public class FirstMissingElement {
 		int right = arr.length - 1;
 		while (left + 1 < right) {
 			int mid = (right - left) / 2 + left;
-			if (arr[left] - left != arr[mid] - mid) {
+			if (mid - left != arr[mid] - arr[left]) {
 				right = mid;
 			}
-			else if (arr[right] - right != arr[mid] - mid) {
+			else  {
 				left = mid;
 			}
 		}
@@ -22,6 +22,8 @@ public class FirstMissingElement {
 		System.out.println(findFistMissingElement(arr2));
 		int[] arr3 = {1,2,4,5,6,8,9,10,15,69};
 		System.out.println(findFistMissingElement(arr3));
+		int[] arr4 = {1,2,6,8,9,10};
+		System.out.println(findFistMissingElement(arr4));
 	}
 }
 
