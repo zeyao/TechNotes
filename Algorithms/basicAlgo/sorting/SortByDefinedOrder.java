@@ -2,6 +2,9 @@ package sorting;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SortByDefinedOrder {
 	/**
@@ -33,5 +36,7 @@ public class SortByDefinedOrder {
 		String order = "hlabcdefgijkmnopqrstuvwxyz";
 		String[] arr = {"hello","word","hell","words"};
 		System.out.println(Arrays.asList(sortByDefinedOrder(arr,order)));
+		Map<String, List<String>> map = new LinkedHashMap<>();
+		ma
 	}
 }
